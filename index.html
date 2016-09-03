@@ -19,22 +19,20 @@
     </div>
   </nav>
   <div class="container">
-    <div class="row">
-      <div class="col s12">
-        <div id="place-list" class="row">
+    <div class="row col s12">
+      <div id="place-list" class="row">
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row col s12">
+      <div class="section">
+        <h5>Saved Places</h5>
+        <div id="saved-places">
 
         </div>
       </div>
     </div>
-    <div class="divider"></div>
-    <div class="row">
-      <div class="section">
-        <h5>Saved Places</h5>
-        <p>Stuff</p>
-      </div>
-    </div>
 
-    <ul id="nearby"></ul>
     <div id="map"></div>
 
   </div>
@@ -46,42 +44,14 @@
   var map, service;
   function initMap() {
     var input = document.getElementById('search')
-    var types = document.getElementById('type-selector');
     var autocomplete = new google.maps.places.Autocomplete(input)
 
-    function crateCardPlace(place) {
-      var photo = 'https://maps.gstatic.com/tactile/pane/default_geocode-1x.png'
-      if (place.photos && place.photos.length > 0)
-        photo = place.photos[0].getUrl({'maxWidth': 150, 'maxHeight': 100})
-
-      var name = place.name
-      if (name.length > 30)
-        name = name.substring(0, 30) + '...'
-
-      var url = '#'
-      if (place.url)
-        url = place.url
-
-      return '        <div class="col m4">' +
-      '        <div class="card">' +
-      '          <div class="card-image">' +
-      '            <img src="' + photo + '">' +
-      '            <span class="card-title">' + name + '</span>' +
-      '          </div>' +
-      '          <div class="card-action">' +
-      '            <a href="' + url + '" target="_blank">See details</a>' +
-      '            <a class="waves-effect waves-light btn">Save</a>' +
-      '          </div>' +
-      '        </div>' +
-      '     </div>'
-    }
-
     autocomplete.addListener('place_changed', function() {
+      $('#place-list').empty()
       var place = autocomplete.getPlace();
-      console.log(place)
-      $('#place-list').append(crateCardPlace(place))
+      $('#place-list').append(createCardPlace(place))
 
-      var pyrmont = {lat: -33.866, lng: 151.196};
+      var pyrmont = {lat: -33.866, lng: 151.196}
       map = new google.maps.Map(document.getElementById('map'), {
         center: pyrmont,
         zoom: 17
@@ -91,38 +61,68 @@
         location: place.geometry.location,
         radius: 500,
         type: []
-      }, processResults);
+      }, processNearbyPlaces);
     })
 
-    function processResults(results, status, pagination) {
-      if (status !== google.maps.places.PlacesServiceStatus.OK)
+    function processNearbyPlaces(results, status, pagination) {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) {
         return;
+      }
       else {
-        createMarkers(results);
-
+        getNearbyPlacesDetails(results);
         // if (pagination.hasNextPage)
         //   pagination.nextPage()
-
       }
     }
 
-    function createMarkers(places) {
+    function getNearbyPlacesDetails(places) {
       for (var i = 0, place; place = places[i]; i++) {
-        service.getDetails({'placeId': place.place_id}, getPlaceDetails)
+        service.getDetails({'placeId': place.place_id}, addPlacetoScreen)
       }
     }
 
-    function getPlaceDetails(result, status) {
+    function addPlacetoScreen(result, status) {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         console.error(status);
         return;
       }
       else {
-        var placesList = document.getElementById('place-list');
-        $(placesList).append(crateCardPlace(result))
+        $('#place-list').append(createCardPlace(result))
       }
     }
+
   }
+
+  function createCardPlace(place) {
+    var photo = 'https://maps.gstatic.com/tactile/pane/default_geocode-1x.png'
+    if (place.photos && place.photos.length > 0){
+      photo = place.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})
+    }
+
+    var name = place.name
+    if (name.length > 30) {
+      name = name.substring(0, 30) + '...'
+    }
+
+    var url = '#'
+    if (place.url) {
+      url = place.url
+    }
+
+
+    return '        <div class="col m4">' +
+    '        <div class="card small">' +
+    '          <div class="card-image waves-effect waves-block waves-light">' +
+    '            <img src="' + photo + '">' +
+    '          </div>' +
+    '          <div class="card-content">' +
+    '            <span class="activator grey-text text-darken-4">' + name + '</span>'+
+    '            <p><a href="' + url + '" target="_blank">See details</a></p>' +
+    '          </div>' +
+    '        </div>' +
+    '     </div>'
+  }
+
   </script>
 </body>
 </html>
