@@ -49,7 +49,7 @@
     autocomplete.addListener('place_changed', function() {
       $('#place-list').empty()
       var place = autocomplete.getPlace();
-      $('#place-list').append(createCardPlace(place))
+      $('#place-list').append(createPlaceCard(place))
 
       var pyrmont = {lat: -33.866, lng: 151.196}
       map = new google.maps.Map(document.getElementById('map'), {
@@ -87,13 +87,13 @@
         return;
       }
       else {
-        $('#place-list').append(createCardPlace(result))
+        $('#place-list').append(createPlaceCard(result))
       }
     }
 
   }
 
-  function createCardPlace(place) {
+  function createPlaceCard(place) {
     var photo = 'https://maps.gstatic.com/tactile/pane/default_geocode-1x.png'
     if (place.photos && place.photos.length > 0){
       photo = place.photos[0].getUrl({'maxWidth': 100, 'maxHeight': 100})
