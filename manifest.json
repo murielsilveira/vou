@@ -1,17 +1,20 @@
 {
   "name": "Vou",
   "scope": "./",
-  "icons": [{
-    "src": "/img/icon-192.png",
-    "sizes": "192x192",
-    "type": "image/png"
-  },{
-    "src": "/img/icon-144.png",
-    "sizes": "144x144",
-    "type": "image/png"
-  }],
+  "icons": [
+    {
+      "src": "/img/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
   "background_color": "#FFFB01",
-  "theme_color": "#FFFB01",
+  "theme_color": "#575757",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": "./apis.html"
