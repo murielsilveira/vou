@@ -1,10 +1,7 @@
 self.onmessage = function(e) {
   return getTarantinoMovies()
     .then(data => postMessage(data))
-    .catch(err => {
-      debugger
-      return 'You are offline'
-    })
+    .catch(err => postMessage('You are offline :('))
 }
 
 function getFoursquare() {
