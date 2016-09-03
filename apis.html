@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>APIs</title>
+  <link rel="manifest" href="/manifest.json">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+</head>
+<body>
+  <header>
+    <h1>Yo Nigga o></h1>
+    <img src="/img/kirby.gif" />
+  </header>
+
+  <button type="button" class="btn" id="btn-get-data">Get data</button>
+  <div id="content"></div>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js" defer></script>
+  <script src="/main.js" type="text/javascript" async></script>
+  <script type="text/javascript">
+    function mapLoaded() { console.log('maps loaded') }
+
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(function(registration) {
+          console.log('Service Worker Registered');
+        })
+      navigator.serviceWorker.ready.then(function(registration) {
+         console.log('Service Worker Ready')
+      })
+    }
+
+    document.getElementById('btn-get-data').addEventListener('click', function(e){
+      getData()
+    })
+  </script>
+</body>
+</html>
