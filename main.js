@@ -1,4 +1,4 @@
-const worker = new Worker('/worker.js')
+const worker = new Worker('./worker.js')
 
 worker.onmessage = function(e) {
   document.getElementById('content').innerHTML = e.data
