@@ -5,10 +5,10 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cacheName).then(function(cache) {
       return cache.addAll([
-        '/apis.html',
-        '/main.js',
-        '/worker.js',
-        '/img/kirby.gif',
+        './apis.html',
+        './main.js',
+        './worker.js',
+        './img/kirby.gif',
         'http://fonts.googleapis.com/icon?family=Material+Icons',
         'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/fonts/roboto/Roboto-Regular.woff2',
