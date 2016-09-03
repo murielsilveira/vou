@@ -18,7 +18,7 @@ function getFoursquare() {
 }
 
 function getTarantinoMovies() {
-  return fetch('http://netflixroulette.net/api/api.php?director=Quentin%20Tarantino')
+  return fetch('https://netflixroulette.net/api/api.php?director=Quentin%20Tarantino')
     .then(response => response.json())
     .then(data => {
       return data.reduce((prev, next) => prev + '<p>' + next.show_title + '</p>', '')
