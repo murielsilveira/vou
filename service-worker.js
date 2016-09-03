@@ -9,7 +9,7 @@ self.addEventListener('install', function(event) {
         './main.js',
         './worker.js',
         './img/kirby.gif',
-        'http://fonts.googleapis.com/icon?family=Material+Icons',
+        'https://fonts.googleapis.com/icon?family=Material+Icons',
         'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/fonts/roboto/Roboto-Regular.woff2',
         'https://code.jquery.com/jquery-2.1.1.min.js',
