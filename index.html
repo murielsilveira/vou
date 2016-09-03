@@ -18,64 +18,115 @@
       </form>
     </div>
   </nav>
-  <div class="row">
-    <div class="col s12">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
 
-      <div id="type-selector" class="controls">
-        <input type="radio" name="type" id="changetype-all" checked="checked">
-        <label for="changetype-all">All</label>
+          <div class="col m4">
+            <div class="card">
 
-        <input type="radio" name="type" id="changetype-establishment">
-        <label for="changetype-establishment">Establishments</label>
+              <div class="card-image">
+                <img src="https://maps.gstatic.com/tactile/pane/default_geocode-1x.png">
+                <span class="card-title">Card Title</span>
+              </div>
 
-        <input type="radio" name="type" id="changetype-address">
-        <label for="changetype-address">Addresses</label>
+              <div class="card-action">
+                <a class="description-url-js" href="#" target="_blank">Description</a>
+              </div>
 
-        <input type="radio" name="type" id="changetype-geocode">
-        <label for="changetype-geocode">Geocodes</label>
-      </div>
-
-      <div class="row">
-        <div class="col s12 m7">
-          <div class="card">
-            <div class="card-image">
-              <img src="http://materializecss.com/images/sample-1.jpg">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>
-                I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.
-              </p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
             </div>
           </div>
+
         </div>
+
       </div>
+    </div>
+    <div class="row">
 
     </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="section">
+        <h5>Saved Places</h5>
+        <p>Stuff</p>
+      </div>
+    </div>
+
   </div>
+
   <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js" defer></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aEJM4HAQUyj3o7AFFVwlmCZLl5Y2kOs&libraries=places&callback=initMap" async defer></script>
   <script>
-    var map;
-    function initMap() {
-      var input = /** @type {!HTMLInputElement} */(
-        document.getElementById('search'));
-      var types = document.getElementById('type-selector');
-      var autocomplete = new google.maps.places.Autocomplete(input);
+  var map;
+  function initMap() {
+    var input = document.getElementById('search')
+    var types = document.getElementById('type-selector');
+    var autocomplete = new google.maps.places.Autocomplete(input)
 
-      autocomplete.addListener('place_changed', function() {
-        var place = autocomplete.getPlace();
-        $('.card-title').html(place.name)
-        var photo = place.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 400})
-        $('.card-image img').attr('src', photo)
-        console.log(place);
-      })
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      console.log(place)
+      $('.card-title').html(place.name)
+      $('.description-url-js').attr('href', place.url)
+      var photo = place.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 400})
+      $('.card-image img').attr('src', photo)
+
+      var location = place.geometry.location
+      var service = new google.maps.places.PlacesService(map)
+      service.nearbySearch({
+        location: location,
+        radius: 500,
+        type: []
+      }, processResults);
+    })
+
+    function processResults(results, status, pagination) {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) {
+        return;
+      } else {
+        createMarkers(results);
+
+        // if (pagination.hasNextPage) {
+        //   var moreButton = document.getElementById('more');
+        //
+        //   moreButton.disabled = false;
+        //
+        //   moreButton.addEventListener('click', function() {
+        //     moreButton.disabled = true;
+        //     pagination.nextPage();
+        //   });
+        // }
+      }
     }
+
+    function createMarkers(places) {
+      var placesList = document.getElementById('places');
+
+      for (var i = 0, place; place = places[i]; i++) {
+        var image = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+
+        var marker = new google.maps.Marker({
+          map: map,
+          icon: image,
+          title: place.name,
+          position: place.geometry.location
+        });
+
+        placesList.innerHTML += '<li>' + place.name + '</li>';
+
+        bounds.extend(place.geometry.location);
+      }
+      map.fitBounds(bounds);
+    }
+  }
   </script>
 </body>
 </html>
