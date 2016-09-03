@@ -1,97 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--Import Google Icon Font-->
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta charset="utf-8">
-    <style>
-    #map {
-        height: 100%;
-    }
-    </style>
+  <meta charset="utf-8">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-
 <body>
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-
-    <nav>
-        <div class="nav-wrapper">
-            <form>
-                <div class="input-field">
-                    <input id="search" type="search" placeholder="Enter a location" required>
-                    <label for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                </div>
-            </form>
+  <nav>
+    <div class="nav-wrapper">
+      <form>
+        <div class="input-field">
+          <input id="search" type="search" placeholder="Enter a location" required>
+          <label for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
         </div>
-    </nav>
+      </form>
+    </div>
+  </nav>
+  <div class="row">
+    <div class="col s12">
 
+      <div id="type-selector" class="controls">
+        <input type="radio" name="type" id="changetype-all" checked="checked">
+        <label for="changetype-all">All</label>
 
-    <!-- Page Layout here -->
-    <div class="row">
+        <input type="radio" name="type" id="changetype-establishment">
+        <label for="changetype-establishment">Establishments</label>
 
-        <div class="col s12">
-            <div id="type-selector" class="controls">
-                <input type="radio" name="type" id="changetype-all" checked="checked">
-                <label for="changetype-all">All</label>
+        <input type="radio" name="type" id="changetype-address">
+        <label for="changetype-address">Addresses</label>
 
-                <input type="radio" name="type" id="changetype-establishment">
-                <label for="changetype-establishment">Establishments</label>
+        <input type="radio" name="type" id="changetype-geocode">
+        <label for="changetype-geocode">Geocodes</label>
+      </div>
 
-                <input type="radio" name="type" id="changetype-address">
-                <label for="changetype-address">Addresses</label>
-
-                <input type="radio" name="type" id="changetype-geocode">
-                <label for="changetype-geocode">Geocodes</label>
+      <div class="row">
+        <div class="col s12 m7">
+          <div class="card">
+            <div class="card-image">
+              <img src="http://materializecss.com/images/sample-1.jpg">
+              <span class="card-title">Card Title</span>
             </div>
-
-            <div class="row">
-
-                <div class="col s12 m7">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="http://materializecss.com/images/sample-1.jpg">
-                            <span class="card-title">Card Title</span>
-                        </div>
-                        <div class="card-content">
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                            <div class="card-action">
-                                <a href="#">This is a link</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                var map;
-                function initMap() {
-                    var input = /** @type {!HTMLInputElement} */(
-                        document.getElementById('search'));
-                        var types = document.getElementById('type-selector');
-                        var autocomplete = new google.maps.places.Autocomplete(input);
-                        autocomplete.addListener('place_changed', function() {
-                            var place = autocomplete.getPlace();
-                            debugger;
-                            $('.card-title').html(place.name)
-                            var photo = place.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 400})
-                            $('.card-image img').attr('src', photo)
-                            console.log(place);
-                        })
-                    }
-                    </script>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aEJM4HAQUyj3o7AFFVwlmCZLl5Y2kOs&libraries=places&callback=initMap"
-                    async defer></script>
-                </div>
-
+            <div class="card-content">
+              <p>
+                I am a very simple card. I am good at containing small bits of information.
+                I am convenient because I require little markup to use effectively.
+              </p>
             </div>
-        </body>
-        </html>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js" defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4aEJM4HAQUyj3o7AFFVwlmCZLl5Y2kOs&libraries=places&callback=initMap" async defer></script>
+  <script>
+    var map;
+    function initMap() {
+      var input = /** @type {!HTMLInputElement} */(
+        document.getElementById('search'));
+      var types = document.getElementById('type-selector');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        $('.card-title').html(place.name)
+        var photo = place.photos[0].getUrl({'maxWidth': 400, 'maxHeight': 400})
+        $('.card-image img').attr('src', photo)
+        console.log(place);
+      })
+    }
+  </script>
+</body>
+</html>
